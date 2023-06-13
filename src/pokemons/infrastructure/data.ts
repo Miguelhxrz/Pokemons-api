@@ -1,6 +1,6 @@
 export const Pokemons = [
   {
-    id: '1',
+    id: 1,
     name: 'Bulbasaur',
     types: ['planta', 'veneno'],
     createAt: null,
@@ -8,7 +8,7 @@ export const Pokemons = [
     deleteAt: null,
   },
   {
-    id: '2',
+    id: 2,
     name: 'Charmander ',
     types: ['fuego'],
     createAt: null,
@@ -16,7 +16,7 @@ export const Pokemons = [
     deleteAt: null,
   },
   {
-    id: '3',
+    id: 3,
     name: 'Squirtle',
     types: ['agua'],
     createAt: null,
@@ -24,7 +24,7 @@ export const Pokemons = [
     deleteAt: null,
   },
   {
-    id: '4',
+    id: 4,
     name: 'Caterpie',
     types: ['Bicho'],
     createAt: null,

@@ -7,37 +7,39 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
-import { PokemonsService } from '../infrastructure/pokemons.service';
+import { PokemonsService } from '../application/pokemons.service';
 import { CreatePokemonDto } from '../application/create-pokemon.dto';
+import { UpdatePokemonDto } from '../application/update-pokemon.dto';
+import { Pokemon } from '../application/pokemon.entity';
 
 @Controller('api')
 export class PokemonsController {
-  constructor(private readonly PokemonService: PokemonsService) {}
+  constructor(private readonly pokemonService: PokemonsService) {}
 
   @Get('pokemons')
-  getAllPokemons() {
-    return this.PokemonService.getAllPokemons();
+  getAll() {
+    return this.pokemonService.getAll();
   }
 
   @Get('pokemon/:id')
-  getPokemon(@Param() id) {
-    console.log(this.PokemonService.getPokemon(id));
-    return this.PokemonService.getPokemon(id);
+  getById(@Param('id') id: string) {
+    console.log(this.pokemonService.getById(id));
+    return this.pokemonService.getById(id);
   }
 
   @Post('pokemon')
-  createPokemon(@Body() pokemon: CreatePokemonDto): string {
+  create(@Body() pokemon: CreatePokemonDto): Array<CreatePokemonDto> {
     console.log(pokemon);
-    return this.PokemonService.createPokemon();
+    return this.pokemonService.create(pokemon);
   }
 
   @Patch('pokemon/:id')
-  editPokemon(@Param() id): string {
-    return this.PokemonService.editPokemon(id);
+  edit(@Param('id') id: string, @Body() pokedit: UpdatePokemonDto) {
+    return this.pokemonService.edit(id, pokedit);
   }
 
-  @Delete('pokemon/delete/:id')
-  deletePokemon(@Param() id): string {
-    return this.PokemonService.deletePokemon(id);
+  @Delete('pokemon/:id')
+  delete(@Param('id') id: string): Array<Pokemon> {
+    return this.pokemonService.delete(id);
   }
 }
