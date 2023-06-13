@@ -6,25 +6,25 @@ import { Pokemon } from './pokemon.entity';
 
 @Injectable()
 export class PokemonsService {
-  pokemonRepository = new PokemonsRepository();
+  constructor(private readonly pokemonRepository: PokemonsRepository) {}
 
   getAll(): Array<Pokemon> {
     return this.pokemonRepository.getAll();
   }
 
-  getById(id: string): Pokemon {
+  getById(id: string): CreatePokemonDto {
     return this.pokemonRepository.getById(id);
   }
 
-  create(pokemon: CreatePokemonDto): Array<Pokemon> {
-    return this.pokemonRepository.create(pokemon);
+  create(createPokemonDto: CreatePokemonDto): CreatePokemonDto {
+    return this.pokemonRepository.create(createPokemonDto);
   }
 
-  edit(id: string, editPoke: UpdatePokemonDto): Pokemon {
-    return this.pokemonRepository.edit(id, editPoke);
+  edit(id: string, updatePokemonDto: UpdatePokemonDto): UpdatePokemonDto {
+    return this.pokemonRepository.edit(id, updatePokemonDto);
   }
 
-  delete(id: string): Array<Pokemon> {
+  delete(id: string): void {
     return this.pokemonRepository.delete(id);
   }
 }

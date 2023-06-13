@@ -22,22 +22,25 @@ export class PokemonsController {
   }
 
   @Get('pokemon/:id')
-  getById(@Param('id') id: string): Pokemon {
+  getById(@Param('id') id: string): CreatePokemonDto {
     return this.pokemonService.getById(id);
   }
 
   @Post('pokemon')
-  create(@Body() pokemon: CreatePokemonDto): Array<Pokemon> {
-    return this.pokemonService.create(pokemon);
+  create(@Body() createPokmonDto: CreatePokemonDto): CreatePokemonDto {
+    return this.pokemonService.create(createPokmonDto);
   }
 
   @Patch('pokemon/:id')
-  edit(@Param('id') id: string, @Body() pokedit: UpdatePokemonDto) {
-    return this.pokemonService.edit(id, pokedit);
+  edit(
+    @Param('id') id: string,
+    @Body() updatePokemonDto: UpdatePokemonDto,
+  ): UpdatePokemonDto {
+    return this.pokemonService.edit(id, updatePokemonDto);
   }
 
   @Delete('pokemon/:id')
-  delete(@Param('id') id: string): Array<Pokemon> {
+  delete(@Param('id') id: string): void {
     return this.pokemonService.delete(id);
   }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Pokemons } from '../infrastructure/data';
 import { UpdatePokemonDto } from '../application/update-pokemon.dto';
 import { Pokemon } from '../application/pokemon.entity';
+import { CreatePokemonDto } from '../application/create-pokemon.dto';
 
 @Injectable()
 export class PokemonsRepository {
@@ -10,40 +11,39 @@ export class PokemonsRepository {
     return Pokemons;
   }
 
-  getById(id: string): Pokemon {
-    const pokeId = parseInt(id);
-    const pokemon = Pokemons.filter((pokemon) => pokemon.id == pokeId);
-    return pokemon[0];
+  getById(id: string): CreatePokemonDto {
+    return Pokemons.find((pokemon) => pokemon.id === parseInt(id));
   }
 
-  create(pokemon: Pokemon): Array<Pokemon> {
+  create(pokemon: CreatePokemonDto): CreatePokemonDto {
     const newPokemon = {
       id: Pokemons.length + 1,
       ...pokemon,
-      createAt: '',
-      updateAt: '',
-      deleteAt: '',
+      createAt: new Date().toUTCString(),
+      updateAt: new Date().toUTCString(),
+      deleteAt: null,
     };
 
     Pokemons.push(newPokemon);
 
-    return Pokemons;
+    return Pokemons.find((pokemon) => pokemon.id == newPokemon.id);
   }
 
-  edit(id: string, editPoke: UpdatePokemonDto): Pokemon {
-    const pokeId = parseInt(id);
-    let pokemon = Pokemons.find((pokemon) => pokemon.id == pokeId);
+  edit(id: string, updatePokemonDto: UpdatePokemonDto): UpdatePokemonDto {
+    let pokemon = Pokemons.find((pokemon) => pokemon.id == parseInt(id));
     if (pokemon) {
-      pokemon = { ...pokemon, ...editPoke };
+      pokemon = {
+        ...pokemon,
+        ...updatePokemonDto,
+        updateAt: new Date().toUTCString(),
+      };
     }
     return pokemon;
   }
 
-  delete(id: string): Array<Pokemon> {
+  delete(id: string): void {
     const pokeId = parseInt(id);
     const PokeIndex = Pokemons.findIndex((pokemon) => pokemon.id === pokeId);
-    console.log(PokeIndex);
     Pokemons.splice(PokeIndex, 1);
-    return Pokemons;
   }
 }
