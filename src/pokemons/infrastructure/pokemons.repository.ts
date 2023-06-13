@@ -1,30 +1,28 @@
 import { Injectable } from '@nestjs/common';
 
 import { Pokemons } from '../infrastructure/data';
-import { CreatePokemonDto } from '../application/create-pokemon.dto';
 import { UpdatePokemonDto } from '../application/update-pokemon.dto';
+import { Pokemon } from '../application/pokemon.entity';
 
 @Injectable()
 export class PokemonsRepository {
-  getAll() {
+  getAll(): Array<Pokemon> {
     return Pokemons;
   }
 
-  getById(id: string) {
+  getById(id: string): Pokemon {
     const pokeId = parseInt(id);
     const pokemon = Pokemons.filter((pokemon) => pokemon.id == pokeId);
-    return pokemon;
+    return pokemon[0];
   }
 
-  create(pokemon: CreatePokemonDto) {
-    console.log(pokemon);
-
+  create(pokemon: Pokemon): Array<Pokemon> {
     const newPokemon = {
       id: Pokemons.length + 1,
       ...pokemon,
-      createAt: null,
-      updateAt: null,
-      deleteAt: null,
+      createAt: '',
+      updateAt: '',
+      deleteAt: '',
     };
 
     Pokemons.push(newPokemon);
@@ -32,19 +30,20 @@ export class PokemonsRepository {
     return Pokemons;
   }
 
-  edit(id: string, editPoke: UpdatePokemonDto) {
+  edit(id: string, editPoke: UpdatePokemonDto): Pokemon {
     const pokeId = parseInt(id);
     let pokemon = Pokemons.find((pokemon) => pokemon.id == pokeId);
     if (pokemon) {
       pokemon = { ...pokemon, ...editPoke };
     }
-    console.log(pokemon);
     return pokemon;
   }
 
-  delete(id: string) {
+  delete(id: string): Array<Pokemon> {
     const pokeId = parseInt(id);
-    const Pokemones = Pokemons.filter((pokemon) => pokemon.id != pokeId);
-    return Pokemones;
+    const PokeIndex = Pokemons.findIndex((pokemon) => pokemon.id === pokeId);
+    console.log(PokeIndex);
+    Pokemons.splice(PokeIndex, 1);
+    return Pokemons;
   }
 }

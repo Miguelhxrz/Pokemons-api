@@ -8,28 +8,26 @@ import {
   Delete,
 } from '@nestjs/common';
 import { PokemonsService } from '../application/pokemons.service';
-import { CreatePokemonDto } from '../application/create-pokemon.dto';
 import { UpdatePokemonDto } from '../application/update-pokemon.dto';
 import { Pokemon } from '../application/pokemon.entity';
+import { CreatePokemonDto } from '../application/create-pokemon.dto';
 
 @Controller('api')
 export class PokemonsController {
   constructor(private readonly pokemonService: PokemonsService) {}
 
   @Get('pokemons')
-  getAll() {
+  getAll(): Array<Pokemon> {
     return this.pokemonService.getAll();
   }
 
   @Get('pokemon/:id')
-  getById(@Param('id') id: string) {
-    console.log(this.pokemonService.getById(id));
+  getById(@Param('id') id: string): Pokemon {
     return this.pokemonService.getById(id);
   }
 
   @Post('pokemon')
-  create(@Body() pokemon: CreatePokemonDto): Array<CreatePokemonDto> {
-    console.log(pokemon);
+  create(@Body() pokemon: CreatePokemonDto): Array<Pokemon> {
     return this.pokemonService.create(pokemon);
   }
 
