@@ -42,8 +42,9 @@ export class PokemonsRepository {
   }
 
   delete(id: string): void {
-    const pokeId = parseInt(id);
-    const PokeIndex = Pokemons.findIndex((pokemon) => pokemon.id === pokeId);
+    const PokeIndex = Pokemons.findIndex(
+      (pokemon) => pokemon.id === parseInt(id),
+    );
     Pokemons.splice(PokeIndex, 1);
   }
 }
