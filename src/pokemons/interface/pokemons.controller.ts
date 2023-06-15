@@ -7,10 +7,10 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
-import { PokemonsService } from '../application/pokemons.service';
-import { UpdatePokemonDto } from '../application/update-pokemon.dto';
-import { Pokemon } from '../application/pokemon.entity';
-import { CreatePokemonDto } from '../application/create-pokemon.dto';
+import { PokemonsService } from '../application/service/pokemons.service';
+import { UpdatePokemonDto } from '../application/dto/update-pokemon.dto';
+import { Pokemon } from '../domain/pokemon.entity';
+import { CreatePokemonDto } from '../application/dto/create-pokemon.dto';
 
 @Controller('api')
 export class PokemonsController {

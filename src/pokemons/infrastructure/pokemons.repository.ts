@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
 import { Pokemons } from '../infrastructure/data';
-import { UpdatePokemonDto } from '../application/update-pokemon.dto';
-import { Pokemon } from '../application/pokemon.entity';
-import { CreatePokemonDto } from '../application/create-pokemon.dto';
+import { UpdatePokemonDto } from '../application/dto/update-pokemon.dto';
+import { Pokemon } from '../domain/pokemon.entity';
+import { CreatePokemonDto } from '../application/dto/create-pokemon.dto';
+import { IPokemonRepository } from '../application/repository/pokemon.repository.interface';
 
 @Injectable()
-export class PokemonsRepository {
+export class PokemonsRepository implements IPokemonRepository {
   getAll(): Array<Pokemon> {
     return Pokemons;
   }
