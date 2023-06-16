@@ -22,7 +22,7 @@ export class PokemonsController {
   }
 
   @Get('pokemon/:id')
-  getById(@Param('id') id: string): CreatePokemonDto {
+  getById(@Param('id') id: string): Pokemon {
     return this.pokemonService.getById(id);
   }
 

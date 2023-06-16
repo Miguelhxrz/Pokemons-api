@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { Pokemons } from '../infrastructure/data';
-import { UpdatePokemonDto } from '../application/dto/update-pokemon.dto';
 import { Pokemon } from '../domain/pokemon.entity';
-import { CreatePokemonDto } from '../application/dto/create-pokemon.dto';
 import { IPokemonRepository } from '../application/repository/pokemon.repository.interface';
 
 @Injectable()
@@ -12,11 +10,11 @@ export class PokemonsRepository implements IPokemonRepository {
     return Pokemons;
   }
 
-  getById(id: string): CreatePokemonDto {
+  getById(id: string): Pokemon {
     return Pokemons.find((pokemon) => pokemon.id === parseInt(id));
   }
 
-  create(pokemon: CreatePokemonDto): CreatePokemonDto {
+  create(pokemon: Pokemon): Pokemon {
     const newPokemon = {
       id: Pokemons.length + 1,
       ...pokemon,
@@ -30,7 +28,7 @@ export class PokemonsRepository implements IPokemonRepository {
     return Pokemons.find((pokemon) => pokemon.id == newPokemon.id);
   }
 
-  edit(id: string, updatePokemonDto: UpdatePokemonDto): UpdatePokemonDto {
+  edit(id: string, updatePokemonDto: Pokemon): Pokemon {
     let pokemon = Pokemons.find((pokemon) => pokemon.id == parseInt(id));
     if (pokemon) {
       pokemon = {

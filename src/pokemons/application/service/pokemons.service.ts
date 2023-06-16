@@ -3,6 +3,10 @@ import { PokemonsRepository } from '../../infrastructure/pokemons.repository';
 import { CreatePokemonDto } from '../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
 import { Pokemon } from '../../domain/pokemon.entity';
+import {
+  fromCreatePokemonToPokemon,
+  updatePokemonDtoToPokemon,
+} from '../mappers/pokemon.mapper';
 
 @Injectable()
 export class PokemonsService {
@@ -12,16 +16,21 @@ export class PokemonsService {
     return this.pokemonRepository.getAll();
   }
 
-  getById(id: string): CreatePokemonDto {
+  getById(id: string): Pokemon {
     return this.pokemonRepository.getById(id);
   }
 
-  create(createPokemonDto: CreatePokemonDto): CreatePokemonDto {
-    return this.pokemonRepository.create(createPokemonDto);
+  create(createPokemonDto: CreatePokemonDto): Pokemon {
+    return this.pokemonRepository.create(
+      fromCreatePokemonToPokemon(createPokemonDto),
+    );
   }
 
-  edit(id: string, updatePokemonDto: UpdatePokemonDto): UpdatePokemonDto {
-    return this.pokemonRepository.edit(id, updatePokemonDto);
+  edit(id: string, updatePokemonDto: UpdatePokemonDto): Pokemon {
+    return this.pokemonRepository.edit(
+      id,
+      updatePokemonDtoToPokemon(updatePokemonDto),
+    );
   }
 
   delete(id: string): void {
