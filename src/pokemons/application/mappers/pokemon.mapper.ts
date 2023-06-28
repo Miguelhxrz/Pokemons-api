@@ -1,4 +1,4 @@
-import { Pokemon } from 'src/pokemons/domain/pokemon.entity';
+import { Pokemon } from 'src/pokemons/application/entity/pokemon.entity';
 import { CreatePokemonDto } from '../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
 

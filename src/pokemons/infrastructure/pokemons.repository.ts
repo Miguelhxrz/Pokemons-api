@@ -1,49 +1,40 @@
 import { Injectable } from '@nestjs/common';
 
-import { Pokemons } from '../infrastructure/data';
-import { Pokemon } from '../domain/pokemon.entity';
+import { Pokemon } from '../application/entity/pokemon.entity';
 import { IPokemonRepository } from '../application/repository/pokemon.repository.interface';
+import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class PokemonsRepository implements IPokemonRepository {
-  getAll(): Array<Pokemon> {
-    return Pokemons;
+  private readonly repository: Repository<Pokemon>;
+
+  constructor(private readonly dataSource: DataSource) {
+    this.repository = this.dataSource.getRepository(Pokemon);
   }
 
-  getById(id: string): Pokemon {
-    return Pokemons.find((pokemon) => pokemon.id === parseInt(id));
+  async getAll(): Promise<Pokemon[]> {
+    return this.repository.find();
   }
 
-  create(pokemon: Pokemon): Pokemon {
-    const newPokemon = {
-      id: Pokemons.length + 1,
-      ...pokemon,
-      createAt: new Date().toUTCString(),
-      updateAt: new Date().toUTCString(),
-      deleteAt: null,
-    };
-
-    Pokemons.push(newPokemon);
-
-    return Pokemons.find((pokemon) => pokemon.id == newPokemon.id);
+  async getById(id: number): Promise<Pokemon> {
+    return this.repository.findOne({
+      where: {
+        id,
+      },
+    });
   }
 
-  edit(id: string, updatePokemonDto: Pokemon): Pokemon {
-    let pokemon = Pokemons.find((pokemon) => pokemon.id == parseInt(id));
-    if (pokemon) {
-      pokemon = {
-        ...pokemon,
-        ...updatePokemonDto,
-        updateAt: new Date().toUTCString(),
-      };
-    }
-    return pokemon;
+  async create(pokemon: Pokemon): Promise<Pokemon> {
+    const newPokemon = this.repository.create(pokemon);
+    this.repository.save(newPokemon);
+    return newPokemon;
   }
 
-  delete(id: string): void {
-    const PokeIndex = Pokemons.findIndex(
-      (pokemon) => pokemon.id === parseInt(id),
-    );
-    Pokemons.splice(PokeIndex, 1);
+  async edit(id: number, updatePokemonDto: Pokemon): Promise<void> {
+    this.repository.update({ id }, updatePokemonDto); //Esto devuelve si alguna columna fue afectada por el edit
+  }
+
+  async delete(id: number): Promise<void> {
+    this.repository.delete({ id }); //Esto devuelve si alguna columna fue afectada por el delete
   }
 }

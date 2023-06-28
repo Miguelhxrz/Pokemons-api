@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PokemonsRepository } from '../../infrastructure/pokemons.repository';
 import { CreatePokemonDto } from '../dto/create-pokemon.dto';
 import { UpdatePokemonDto } from '../dto/update-pokemon.dto';
-import { Pokemon } from '../../domain/pokemon.entity';
+import { Pokemon } from '../entity/pokemon.entity';
 import {
   fromCreatePokemonToPokemon,
   updatePokemonDtoToPokemon,
@@ -12,28 +12,28 @@ import {
 export class PokemonsService {
   constructor(private readonly pokemonRepository: PokemonsRepository) {}
 
-  getAll(): Array<Pokemon> {
+  getAll() {
     return this.pokemonRepository.getAll();
   }
 
-  getById(id: string): Pokemon {
+  getById(id: number) {
     return this.pokemonRepository.getById(id);
   }
 
-  create(createPokemonDto: CreatePokemonDto): Pokemon {
+  async create(createPokemonDto: CreatePokemonDto): Promise<Pokemon> {
     return this.pokemonRepository.create(
       fromCreatePokemonToPokemon(createPokemonDto),
     );
   }
 
-  edit(id: string, updatePokemonDto: UpdatePokemonDto): Pokemon {
+  edit(id: number, updatePokemonDto: UpdatePokemonDto) {
     return this.pokemonRepository.edit(
       id,
       updatePokemonDtoToPokemon(updatePokemonDto),
     );
   }
 
-  delete(id: string): void {
+  delete(id: number) {
     return this.pokemonRepository.delete(id);
   }
 }
